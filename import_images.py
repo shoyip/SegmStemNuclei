@@ -28,7 +28,7 @@ def copy_images(df, src_folder, dst_folder):
         src_tiff_fullpath = src_folder + row["data_subfolder"] + row["tiff_stem"] + ".tif"
         shutil.copy2(src_tiff_fullpath, dst_folder)
         progress = int(idx * 100. / tot_files)
-        print(f'The copy process is {progress}% done...')
+        print(f'The copy process is {progress}% done...', end='\r')
 
 # Extract list of files in folder and explode for the list of filename stems
 folder_ref_df["tiff_stem"] = folder_ref_df.apply(get_tiff_file, axis=1)
@@ -42,10 +42,10 @@ folder_ref_df["tiff_time"] = folder_ref_df.apply(get_tiff_time, axis=1)
 folder_ref_df = folder_ref_df.query("tiff_time >= t_start and tiff_time < t_stop").reset_index(drop=True)
 
 # Select 45 images, one every 30 images
-folder_ref_df = folder_ref_df.iloc[::45].reset_index(drop=True)
+folder_ref_df = folder_ref_df.iloc[::30].reset_index(drop=True)
 print(f'{len(folder_ref_df)} images have been selected and will be imported in the destination folder.')
 
 # Copy the images to the destination folder
-print("Performing copy...")
+print("Performing copy...\n")
 copy_images(folder_ref_df, data_src_folder, raw_folder)
-print("Copy successful!")
+print("\nCopy successful!")
