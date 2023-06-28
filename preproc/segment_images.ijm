@@ -42,6 +42,8 @@ function ImageSegment (input, filename, index) {
 
 	// move the file to the folder of already tagged images
 	File.rename(input + filename, input_tagged + filename);
+	selectWindow("Log");
+	run("Close");
 
 	// close ROI manager
 	selectWindow("ROI Manager");
