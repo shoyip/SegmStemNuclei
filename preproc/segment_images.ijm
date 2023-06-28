@@ -1,5 +1,6 @@
 input = getDirectory("Choose Source Dir of Images");
 list = getFileList(input);
+input_tagged = getDirectory("Choose where to move tagged images");
 output = getDirectory("Choose Destination Dir of Images");
 
 for (i=0; i<list.length; i++)
@@ -22,22 +23,25 @@ function ImageSegment (input, filename, index) {
 	// by using the "Add" button in the ROI Manager
 	waitForUser("Select nuclei");
 
-	// select all ROIs
-	selectAllROIs();
+	// how many ROIs are there?
+	count = roiManager("count");
 
 	// combine the selected ROIs into one selection
-	roiManager("Combine");
+	if (count>1) {
+		// select all ROIs
+		selectAllROIs();
 
-	// try to convexify the selection
-	//run("Create Selection");
-	//run("Enlarge...", "enlarge=5");
-	//run("Enlarge...", "enlarge=-5");
+		roiManager("Combine");
+	}
 
 	// create mask and save
 	run("Create Mask");
 	selectWindow("Mask");
 	saveAs("tiff", output+filename);
 	close("*");
+
+	// move the file to the folder of already tagged images
+	File.rename(input + filename, input_tagged + filename);
 
 	// close ROI manager
 	selectWindow("ROI Manager");
