@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -Rf ./data/raw/*.tif
+# rm -Rf ./data/raw/*.tif
